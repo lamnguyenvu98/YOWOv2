@@ -5,3 +5,7 @@
 __pycache__
 det_results
 .vscode
+**/__pycache__/
+venv
+build
+*.egg-info
