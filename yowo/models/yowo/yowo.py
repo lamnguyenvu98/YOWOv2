@@ -10,6 +10,23 @@ from .head import build_head
 
 from yowo.utils.nms import multiclass_nms
 
+def aggregate_features(feat_2d, feat_3d):
+    spatial_size_3d = feat_3d.size(-1)
+    spatial_size_2d = feat_2d.size(-1)
+    kernel_size = int(spatial_size_2d / spatial_size_3d)
+    if kernel_size > 1:
+        out_feat_2d = F.unfold(
+            feat_2d,
+            kernel_size=(kernel_size, kernel_size),
+            dilation=1,
+            stride=(kernel_size, kernel_size)
+        )
+        out_feat_2d = out_feat_2d.view(feat_2d.size(0), feat_2d.size(1), -1, spatial_size_3d, spatial_size_3d)
+        out_feat_2d = torch.mean(out_feat_2d, dim=2)
+    else:
+        out_feat_2d = feat_2d
+    
+    return out_feat_2d
 
 # You Only Watch Once
 class YOWO(nn.Module):
@@ -265,12 +282,26 @@ class YOWO(nn.Module):
         all_reg_preds = []
         all_anchors = []
         for level, (cls_feat, reg_feat) in enumerate(zip(cls_feats, reg_feats)):
+            cls_feat_2d_unfold = aggregate_features(
+                feat_2d=cls_feat,
+                feat_3d=feat_3d
+            )
+            reg_feat_2d_unfold = aggregate_features(
+                feat_2d=reg_feat,
+                feat_3d=feat_3d
+            )
             # upsample
-            feat_3d_up = F.interpolate(feat_3d, scale_factor=2 ** (2 - level))
+            # feat_3d_up = F.interpolate(feat_3d, scale_factor=2 ** (2 - level))
+            feat_3d_up = feat_3d
 
             # encoder
-            cls_feat = self.cls_channel_encoders[level](cls_feat, feat_3d_up)
-            reg_feat = self.reg_channel_encoders[level](reg_feat, feat_3d_up)
+            # cls_feat = self.cls_channel_encoders[level](cls_feat, feat_3d_up)
+            # reg_feat = self.reg_channel_encoders[level](reg_feat, feat_3d_up)
+            cls_feat = self.cls_channel_encoders[level](cls_feat_2d_unfold, feat_3d_up)
+            reg_feat = self.reg_channel_encoders[level](reg_feat_2d_unfold, feat_3d_up)
+
+            cls_feat = F.interpolate(cls_feat, scale_factor=2 ** (2 - level))
+            reg_feat = F.interpolate(reg_feat, scale_factor=2 ** (2 - level))
 
             # head
             cls_feat, reg_feat = self.heads[level](cls_feat, reg_feat)
@@ -379,12 +410,26 @@ class YOWO(nn.Module):
             all_box_preds = []
             all_anchors = []
             for level, (cls_feat, reg_feat) in enumerate(zip(cls_feats, reg_feats)):
+                cls_feat_2d_unfold = aggregate_features(
+                    feat_2d=cls_feat,
+                    feat_3d=feat_3d
+                )
+                reg_feat_2d_unfold = aggregate_features(
+                    feat_2d=cls_feat,
+                    feat_3d=feat_3d
+                )
                 # upsample
-                feat_3d_up = F.interpolate(feat_3d, scale_factor=2 ** (2 - level))
+                # feat_3d_up = F.interpolate(feat_3d, scale_factor=2 ** (2 - level))
+                feat_3d_up = feat_3d
 
                 # encoder
-                cls_feat = self.cls_channel_encoders[level](cls_feat, feat_3d_up)
-                reg_feat = self.reg_channel_encoders[level](reg_feat, feat_3d_up)
+                # cls_feat = self.cls_channel_encoders[level](cls_feat, feat_3d_up)
+                # reg_feat = self.reg_channel_encoders[level](reg_feat, feat_3d_up)
+                cls_feat = self.cls_channel_encoders[level](cls_feat_2d_unfold, feat_3d_up)
+                reg_feat = self.reg_channel_encoders[level](reg_feat_2d_unfold, feat_3d_up)
+                
+                cls_feat = F.interpolate(cls_feat, scale_factor=2 ** (2 - level))
+                reg_feat = F.interpolate(cls_feat, scale_factor=2 ** (2 - level))
 
                 # head
                 cls_feat, reg_feat = self.heads[level](cls_feat, reg_feat)
