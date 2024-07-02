@@ -11,14 +11,14 @@ import torch.backends.cudnn as cudnn
 import torch.distributed as dist
 from torch.nn.parallel import DistributedDataParallel as DDP
 
-from utils import distributed_utils
-from utils.com_flops_params import FLOPs_and_Params
-from utils.misc import CollateFunc, build_dataset, build_dataloader
-from utils.solver.optimizer import build_optimizer
-from utils.solver.warmup_schedule import build_warmup
+from yowo.utils import distributed_utils
+from yowo.utils.com_flops_params import FLOPs_and_Params
+from yowo.utils.misc import CollateFunc, build_dataset, build_dataloader
+from yowo.utils.solver.optimizer import build_optimizer
+from yowo.utils.solver.warmup_schedule import build_warmup
 
 from config import build_dataset_config, build_model_config
-from models import build_model
+from yowo.models import build_model
 
 
 GLOBAL_SEED = 42
