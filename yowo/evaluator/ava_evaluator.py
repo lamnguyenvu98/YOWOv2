@@ -5,7 +5,7 @@ from collections import defaultdict
 import torch
 import json
 
-from dataset.ava import AVA_Dataset
+from yowo.dataset.ava import AVA_Dataset
 
 from .ava_eval_helper import (
     run_evaluation,

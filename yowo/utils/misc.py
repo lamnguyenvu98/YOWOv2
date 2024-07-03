@@ -3,12 +3,12 @@ import os
 import torch
 import torch.nn as nn
 
-from dataset.ucf_jhmdb import UCF_JHMDB_Dataset
-from dataset.ava import AVA_Dataset
-from dataset.transforms import Augmentation, BaseTransform
+from yowo.dataset.ucf_jhmdb import UCF_JHMDB_Dataset
+from yowo.dataset.ava import AVA_Dataset
+from yowo.dataset.transforms import Augmentation, BaseTransform
 
-from evaluator.ucf_jhmdb_evaluator import UCF_JHMDB_Evaluator
-from evaluator.ava_evaluator import AVA_Evaluator
+from yowo.evaluator.ucf_jhmdb_evaluator import UCF_JHMDB_Evaluator
+from yowo.evaluator.ava_evaluator import AVA_Evaluator
 
 
 def build_dataset(d_cfg, args, is_train=False):

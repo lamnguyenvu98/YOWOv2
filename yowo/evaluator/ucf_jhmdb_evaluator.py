@@ -3,8 +3,8 @@ import torch
 import numpy as np
 from scipy.io import loadmat
 
-from dataset.ucf_jhmdb import UCF_JHMDB_Dataset, UCF_JHMDB_VIDEO_Dataset
-from utils.box_ops import rescale_bboxes
+from yowo.dataset.ucf_jhmdb import UCF_JHMDB_Dataset, UCF_JHMDB_VIDEO_Dataset
+from yowo.utils.box_ops import rescale_bboxes
 
 from .cal_frame_mAP import evaluate_frameAP
 from .cal_video_mAP import evaluate_videoAP
