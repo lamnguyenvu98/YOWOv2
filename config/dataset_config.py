@@ -4,7 +4,7 @@
 dataset_config = {
     'ucf24': {
         # dataset
-        'gt_folder': './evaluator/groundtruths_ucf_jhmdb/groundtruths_ucf/',
+        'gt_folder': '../yowo/evaluator/groundtruths_ucf_jhmdb/groundtruths_ucf/',
         # input size
         'train_size': 224,
         'test_size': 224,

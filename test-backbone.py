@@ -8,14 +8,15 @@ cfg = yowo_v2_config['yowo_v2_nano']
 model = YOWO(
     cfg=cfg,
     device=torch.device("cpu"),
-    num_classes=20,
-    trainable=False
+    num_classes=24,
+    trainable=True
 )
 
 inp = torch.randn(1, 3, 16, 224, 224)
 out = model(inp.float())
 
-print(out)
+for k, v in out.items():
+    print(k, v[0].shape)
 
 # backbone_2d, dims_2d = build_backbone_2d(cfg, pretrained=False)
 # backbone_3d, dims_3d = build_backbone_3d(cfg, pretrained=False)

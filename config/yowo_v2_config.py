@@ -6,12 +6,12 @@ yowo_v2_config = {
         # backbone
         ## 2D
         'backbone_2d': 'yolo_free_nano',
-        'pretrained_2d': False,
+        'pretrained_2d': True,
         'stride': [8, 16, 32],
         ## 3D
         'backbone_3d': 'shufflenetv2',
         'model_size': '1.0x',
-        'pretrained_3d': False,
+        'pretrained_3d': True,
         'memory_momentum': 0.9,
         # head
         'head_dim': 64,
