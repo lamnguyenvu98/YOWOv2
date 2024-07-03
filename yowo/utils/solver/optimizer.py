@@ -32,8 +32,9 @@ def build_optimizer(cfg, model, base_lr=0.0, resume=None):
         print('keep training: ', resume)
         checkpoint = torch.load(resume)
         # checkpoint state dict
-        checkpoint_state_dict = checkpoint.pop("optimizer")
-        optimizer.load_state_dict(checkpoint_state_dict)
+        checkpoint_state_dict = checkpoint.pop("optimizer", None)
+        if optimizer is not None:
+            optimizer.load_state_dict(checkpoint_state_dict)
         start_epoch = checkpoint.pop("epoch")
                         
                                 
