@@ -17,7 +17,7 @@ from yowo.utils.misc import CollateFunc, build_dataset, build_dataloader
 from yowo.utils.solver.optimizer import build_optimizer
 from yowo.utils.solver.warmup_schedule import build_warmup
 
-from config import build_dataset_config, build_model_config
+from yowo.config import build_dataset_config, build_model_config
 from yowo.models import build_model
 
 
@@ -210,7 +210,7 @@ def train():
     # eval before training
     if args.eval_first and distributed_utils.is_main_process():
         # to check whether the evaluator can work
-        eval_one_epoch(args, model_without_ddp, evaluator, 0, path_to_save)
+        eval_one_epoch(args, model_without_ddp, evaluator, 0, path_to_save, optimizer)
 
     # start to train
     t0 = time.time()
@@ -271,10 +271,10 @@ def train():
         
         # evaluation
         if epoch % args.eval_epoch == 0 or (epoch + 1) == max_epoch:
-            eval_one_epoch(args, model_without_ddp, evaluator, epoch, path_to_save)
+            eval_one_epoch(args, model_without_ddp, evaluator, epoch, path_to_save, optimizer)
 
 
-def eval_one_epoch(args, model_eval, evaluator, epoch, path_to_save):
+def eval_one_epoch(args, model_eval, evaluator, epoch, path_to_save, optimizer):
     # check evaluator
     if distributed_utils.is_main_process():
         if evaluator is None:
@@ -299,7 +299,9 @@ def eval_one_epoch(args, model_eval, evaluator, epoch, path_to_save):
         checkpoint_path = os.path.join(path_to_save, weight_name)
         torch.save({'model': model_eval.state_dict(),
                     'epoch': epoch,
-                    'args': args}, 
+                    'args': args,
+                    'optimizer': optimizer.state_dict(),
+                    }, 
                     checkpoint_path)                      
 
     if args.distributed:

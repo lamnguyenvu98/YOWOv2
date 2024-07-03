@@ -2,15 +2,15 @@ import argparse
 import torch
 import os
 
-from evaluator.ucf_jhmdb_evaluator import UCF_JHMDB_Evaluator
-from evaluator.ava_evaluator import AVA_Evaluator
+from yowo.evaluator.ucf_jhmdb_evaluator import UCF_JHMDB_Evaluator
+from yowo.evaluator.ava_evaluator import AVA_Evaluator
 
-from dataset.transforms import BaseTransform
+from yowo.dataset.transforms import BaseTransform
 
-from utils.misc import load_weight, CollateFunc
+from yowo.utils.misc import load_weight, CollateFunc
 
-from config import build_dataset_config, build_model_config
-from models import build_model
+from yowo.config import build_dataset_config, build_model_config
+from yowo.models import build_model
 
 
 def parse_args():

@@ -5,16 +5,16 @@ import time
 import numpy as np
 import torch
 
-from dataset.ucf_jhmdb import UCF_JHMDB_Dataset
-from dataset.ava import AVA_Dataset
-from dataset.transforms import BaseTransform
+from yowo.dataset.ucf_jhmdb import UCF_JHMDB_Dataset
+from yowo.dataset.ava import AVA_Dataset
+from yowo.dataset.transforms import BaseTransform
 
-from utils.misc import load_weight
-from utils.box_ops import rescale_bboxes
-from utils.vis_tools import convert_tensor_to_cv2img, vis_detection
+from yowo.utils.misc import load_weight
+from yowo.utils.box_ops import rescale_bboxes
+from yowo.utils.vis_tools import convert_tensor_to_cv2img, vis_detection
 
-from config import build_dataset_config, build_model_config
-from models import build_model
+from yowo.config import build_dataset_config, build_model_config
+from yowo.models import build_model
 
 
 def parse_args():

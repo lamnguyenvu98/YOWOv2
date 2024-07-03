@@ -7,12 +7,12 @@ import torch
 import imageio
 from PIL import Image
 
-from dataset.transforms import BaseTransform
-from utils.misc import load_weight
-from utils.box_ops import rescale_bboxes
-from utils.vis_tools import vis_detection
-from config import build_dataset_config, build_model_config
-from models import build_model
+from yowo.dataset.transforms import BaseTransform
+from yowo.utils.misc import load_weight
+from yowo.utils.box_ops import rescale_bboxes
+from yowo.utils.vis_tools import vis_detection
+from yowo.config import build_dataset_config, build_model_config
+from yowo.models import build_model
 
 
 
