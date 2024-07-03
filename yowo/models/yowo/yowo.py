@@ -429,7 +429,7 @@ class YOWO(nn.Module):
                 reg_feat = self.reg_channel_encoders[level](reg_feat_2d_unfold, feat_3d_up)
                 
                 cls_feat = F.interpolate(cls_feat, scale_factor=2 ** (2 - level))
-                reg_feat = F.interpolate(cls_feat, scale_factor=2 ** (2 - level))
+                reg_feat = F.interpolate(reg_feat, scale_factor=2 ** (2 - level))
 
                 # head
                 cls_feat, reg_feat = self.heads[level](cls_feat, reg_feat)
