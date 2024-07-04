@@ -35,7 +35,7 @@ class UCF_JHMDB_Evaluator(object):
         self.iou_thresh = iou_thresh
         self.collate_fn = collate_fn
 
-        self.gt_folder = gt_folder
+        self.gt_folder = gt_folder if os.path.exists(gt_folder) else os.path.join(data_root, 'groundtruths_ucf')
         self.save_path = save_path
 
         self.gt_file = os.path.join(data_root, 'splitfiles/finalAnnots.mat')
