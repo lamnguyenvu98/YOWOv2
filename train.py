@@ -11,7 +11,7 @@ import torch.backends.cudnn as cudnn
 import torch.distributed as dist
 from torch.nn.parallel import DistributedDataParallel as DDP
 
-from yowo.utils import distributed_utils
+import yowo.utils.distributed_utils as distributed_utils
 from yowo.utils.com_flops_params import FLOPs_and_Params
 from yowo.utils.misc import CollateFunc, build_dataset, build_dataloader
 from yowo.utils.solver.optimizer import build_optimizer
