@@ -38,4 +38,4 @@ def build_optimizer(cfg, model, base_lr=0.0, resume=None):
         start_epoch = checkpoint.pop("epoch")
                         
                                 
-    return optimizer, start_epoch
+    return optimizer, start_epoch + 1
