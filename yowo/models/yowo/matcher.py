@@ -13,21 +13,23 @@ class SimOTA(object):
 
 
     @torch.no_grad()
-    def __call__(self, 
-                 fpn_strides, 
-                 anchors, 
-                 pred_conf, 
-                 pred_cls, 
-                 pred_box, 
-                 tgt_labels,
-                 tgt_bboxes):
-        # [M,]
+    def __call__(
+        self, 
+        fpn_strides, 
+        anchors, # List of [H*W, 2], H*W each scale
+        pred_conf, # [M, 1], M is sum of H*W for each scale
+        pred_cls, # [M, 1]
+        pred_box, # [M, 4]
+        tgt_labels, # [num_instances, ]
+        tgt_bboxes, # [num_instances, 4]
+        ): 
+        # [M, 3]
         strides = torch.cat([torch.ones_like(anchor_i[:, 0]) * stride_i
                                 for stride_i, anchor_i in zip(fpn_strides, anchors)], dim=-1)
         # List[F, M, 2] -> [M, 2]
-        anchors = torch.cat(anchors, dim=0)
+        anchors = torch.cat(anchors, dim=0) # [H1*W1 + H2*W2 + H3*W3, 2]
         num_anchor = anchors.shape[0]        
-        num_gt = len(tgt_labels)
+        num_gt = len(tgt_labels) # per image
 
         # positive candidates
         fg_mask, is_in_boxes_and_center = \

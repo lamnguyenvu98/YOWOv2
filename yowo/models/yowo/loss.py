@@ -59,10 +59,13 @@ class Criterion(object):
             outputs['pred_conf']: List(Tensor) [B, M, 1]
             outputs['pred_cls']: List(Tensor) [B, M, C]
             outputs['pred_box']: List(Tensor) [B, M, 4]
+            outputs['anchors']: List(Tensor) [M, 2]
             outputs['strides']: List(Int) [8, 16, 32] output stride
-            targets: (List) [dict{'boxes': [...], 
-                                 'labels': [...], 
-                                 'orig_size': ...}, ...]
+            
+            targets: (List) [dict{
+                'boxes': [...], 
+                'labels': [...], 
+                'orig_size': ...}, ...]
         """
         bs = outputs['pred_cls'][0].shape[0]
         device = outputs['pred_cls'][0].device
